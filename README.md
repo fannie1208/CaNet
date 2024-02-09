@@ -12,6 +12,8 @@ Related material: [[Paper]()], [[Blog]()]
 Our model coordinates two key components 1) an environment estimator that infers pseudo environment labels, and 2) a mixture-of-expert GNN predictor with feature propagation
 units conditioned on the pseudo environments. 
 
+[model-inst.pdf](https://github.com/fannie1208/CaNet/files/14218631/model-inst.pdf)
+
 ## Dataset
 
 One can download the datasets Planetoid (Cora, Citeseer, Pubmed), Arxiv, Twitch, and Elliptic from the google drive link below:
