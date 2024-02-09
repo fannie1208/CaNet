@@ -9,15 +9,22 @@ Related material: [[Paper]()], [[Blog]()]
 
 ## Model and Results
 
+Our model coordinates two key components 1) an environment estimator that infers pseudo environment labels, and 2) a mixture-of-expert GNN predictor with feature propagation
+units conditioned on the pseudo environments. 
+
 ## Dataset
 
 One can download the datasets Planetoid (Cora, Citeseer, Pubmed), Arxiv, Twitch, and Elliptic from the google drive link below:
 
 https://drive.google.com/drive/folders/1FAPWghoyGp9vzr1xmnndpmLLFS1OgBDa?usp=sharing
 
+## Dependence
+
+Python 3.8, PyTorch 1.13.0, PyTorch Geometric 2.1.0, NumPy 1.23.4
+
 ## Run the codes
 
-Please refer to the bash script `run.sh` in each folder for running the training and evaluation pipeline.
+Please refer to the bash script `run.sh` in each folder for running the training and evaluation pipeline on six datasets.
 
 ### Citation
 

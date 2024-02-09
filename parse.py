@@ -10,14 +10,13 @@ def parser_add_main_args(parser):
     parser.add_argument('--runs', type=int, default=5,
                         help='number of distinct runs')
     parser.add_argument('--epochs', type=int, default=500)
-    parser.add_argument('--OODtype', type=str, default='feat', choices=['eat'])
 
     # model network
     parser.add_argument('--hidden_channels', type=int, default=64)
     parser.add_argument('--num_layers', type=int, default=2,
                         help='number of layers for deep methods')
 
-    # GraphSHINE
+    # CaNet
     parser.add_argument('--backbone_type', type=str, default='gcn', choices=['gcn', 'gat'])
     parser.add_argument('--K', type=int, default=3,
                         help='num of domains, each for one graph convolution filter')

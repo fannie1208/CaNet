@@ -75,7 +75,7 @@ print(f'[INFO] env numbers: {dataset.env_num} train env numbers: {dataset.train_
 ### Load method ###
 is_multilabel = args.dataset in ('proteins', 'ppi')
 
-model = GraphSHINE(d, c, args, device).to(device)
+model = CaNet(d, c, args, device).to(device)
 
 if args.dataset in ('elliptic', 'twitch'):
     criterion = nn.BCEWithLogitsLoss(reduction='mean')

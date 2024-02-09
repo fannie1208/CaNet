@@ -44,10 +44,10 @@ class GraphConvolutionBase(nn.Module):
             output = output + torch.mm(x, self.weight_r)
         return output
 
-class GraphSHINEConv(nn.Module):
+class CaNetConv(nn.Module):
 
     def __init__(self, in_features, out_features, K, residual=True, backbone_type='gcn', variant=False, device=None):
-        super(GraphSHINEConv, self).__init__()
+        super(CaNetConv, self).__init__()
         self.backbone_type = backbone_type
         self.out_features = out_features
         self.residual = residual
@@ -116,12 +116,12 @@ class GraphSHINEConv(nn.Module):
 
         return output
 
-class GraphSHINE(nn.Module):
+class CaNet(nn.Module):
     def __init__(self, d, c, args, device):
-        super(GraphSHINE, self).__init__()
+        super(CaNet, self).__init__()
         self.convs = nn.ModuleList()
         for _ in range(args.num_layers):
-            self.convs.append(GraphSHINEConv(args.hidden_channels, args.hidden_channels, args.K, backbone_type=args.backbone_type, residual=True, device=device, variant=args.variant))
+            self.convs.append(CaNetConv(args.hidden_channels, args.hidden_channels, args.K, backbone_type=args.backbone_type, residual=True, device=device, variant=args.variant))
         self.fcs = nn.ModuleList()
         self.fcs.append(nn.Linear(d, args.hidden_channels))
         self.fcs.append(nn.Linear(args.hidden_channels, c))
