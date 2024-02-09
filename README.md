@@ -12,7 +12,7 @@ Related material: [[Paper]()], [[Blog]()]
 Our model coordinates two key components 1) an environment estimator that infers pseudo environment labels, and 2) a mixture-of-expert GNN predictor with feature propagation
 units conditioned on the pseudo environments. 
 
-[model-inst.pdf](https://github.com/fannie1208/CaNet/files/14218631/model-inst.pdf)
+<img src="https://github.com/fannie1208/CaNet/assets/89764090/04603d2b-4d1d-4a1b-a2c0-6110c325e84d" alt="image" width="800">
 
 ## Dataset
 
