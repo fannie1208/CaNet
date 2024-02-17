@@ -22,7 +22,7 @@ def parser_add_main_args(parser):
                         help='num of domains, each for one graph convolution filter')
     parser.add_argument('--tau', type=float, default=1,
                         help='temperature for Gumbel Softmax')
-    parser.add_argument('--context_type', type=str, default='node', choices=['node', 'graph'])
+    parser.add_argument('--env_type', type=str, default='node', choices=['node', 'graph'])
     parser.add_argument('--lamda', type=float, default=1.0,
                         help='weight for regularlization')
     parser.add_argument('--variant', action='store_true',help='set to use variant')

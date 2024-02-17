@@ -8,7 +8,10 @@ from torch_geometric.utils import erdos_renyi_graph, remove_self_loops, add_self
 from data_utils import sys_normalized_adjacency, sparse_mx_to_torch_sparse_tensor
 from torch_sparse import SparseTensor, matmul
 
-def gcn_conv(x, edge_index):
+def gcn_conv(x, edge_index, device, variant=False):
+    if variant:
+        adj = torch.sparse_coo_tensor(edge_index, torch.ones(edge_index.shape[1]).to(device), size=(x.shape[0],x.shape[0])).to(device)
+        return torch.sparse.mm(adj, x)
     N = x.shape[0]
     row, col = edge_index
     d = degree(col, N).float()
@@ -76,11 +79,7 @@ class CaNetConv(nn.Module):
         if weights == None:
             weights = self.weights
         if self.backbone_type == 'gcn':
-            if not self.variant:
-                hi = gcn_conv(x, adj)
-            else:
-                adj = torch.sparse_coo_tensor(adj, torch.ones(adj.shape[1]).to(self.device), size=(x.shape[0],x.shape[0])).to(self.device)
-                hi = torch.sparse.mm(adj, x)
+            hi = gcn_conv(x, adj, self.device, self.variant)
             hi = torch.cat([hi, x], 1)
             hi = hi.unsqueeze(0).repeat(self.K, 1, 1)  # [K, N, D*2]
             outputs = torch.matmul(hi, weights) # [K, N, D]
@@ -125,19 +124,19 @@ class CaNet(nn.Module):
         self.fcs = nn.ModuleList()
         self.fcs.append(nn.Linear(d, args.hidden_channels))
         self.fcs.append(nn.Linear(args.hidden_channels, c))
-        self.context_enc = nn.ModuleList()
+        self.env_enc = nn.ModuleList()
         for _ in range(args.num_layers):
-            if args.context_type == 'node':
-                self.context_enc.append(nn.Linear(args.hidden_channels, args.K))
-            elif args.context_type == 'graph':
-                self.context_enc.append(GraphConvolutionBase(args.hidden_channels, args.K, residual=True))
+            if args.env_type == 'node':
+                self.env_enc.append(nn.Linear(args.hidden_channels, args.K))
+            elif args.env_type == 'graph':
+                self.env_enc.append(GraphConvolutionBase(args.hidden_channels, args.K, residual=True))
             else:
                 raise NotImplementedError
         self.act_fn = nn.ReLU()
         self.dropout = args.dropout
         self.num_layers = args.num_layers
         self.tau = args.tau
-        self.context_type = args.context_type
+        self.env_type = args.env_type
         self.device = device
 
     def reset_parameters(self):
@@ -145,7 +144,7 @@ class CaNet(nn.Module):
             conv.reset_parameters()
         for fc in self.fcs:
             fc.reset_parameters()
-        for enc in self.context_enc:
+        for enc in self.env_enc:
             enc.reset_parameters()
 
     def forward(self, x, adj, idx=None, training=False):
@@ -158,18 +157,18 @@ class CaNet(nn.Module):
         for i,con in enumerate(self.convs):
             h = F.dropout(h, self.dropout, training=self.training)
             if self.training:
-                if self.context_type == 'node':
-                    logit = self.context_enc[i](h)
+                if self.env_type == 'node':
+                    logit = self.env_enc[i](h)
                 else:
-                    logit = self.context_enc[i](h, adj, h0)
-                z = F.gumbel_softmax(logit, tau=self.tau, dim=-1)
-                reg += self.reg_loss(z, logit)
+                    logit = self.env_enc[i](h, adj, h0)
+                e = F.gumbel_softmax(logit, tau=self.tau, dim=-1)
+                reg += self.reg_loss(e, logit)
             else:
-                if self.context_type == 'node':
-                    z = F.softmax(self.context_enc[i](h), dim=-1)
+                if self.env_type == 'node':
+                    e = F.softmax(self.env_enc[i](h), dim=-1)
                 else:
-                    z = F.softmax(self.context_enc[i](h, adj, h0), dim=-1)
-            h = self.act_fn(con(h, adj, z))
+                    e = F.softmax(self.env_enc[i](h, adj, h0), dim=-1)
+            h = self.act_fn(con(h, adj, e))
 
         h = F.dropout(h, self.dropout, training=self.training)
         out = self.fcs[-1](h)
