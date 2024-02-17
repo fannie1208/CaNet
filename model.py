@@ -75,7 +75,7 @@ class CaNetConv(nn.Module):
         adj = SparseTensor(row=adj[0], col=adj[1], value=spm, sparse_sizes=size)
         return matmul(adj, h)
 
-    def forward(self, x, adj, z, weights=None):
+    def forward(self, x, adj, e, weights=None):
         if weights == None:
             weights = self.weights
         if self.backbone_type == 'gcn':
@@ -107,8 +107,8 @@ class CaNetConv(nn.Module):
                 outputs.append(hi_k)
             outputs = torch.stack(outputs, dim=1) # [N, K, D]
 
-        zs = z.unsqueeze(2).repeat(1, 1, self.out_features)  # [N, K, D]
-        output = torch.sum(torch.mul(zs, outputs), dim=1)  # [N, D]
+        es = e.unsqueeze(2).repeat(1, 1, self.out_features)  # [N, K, D]
+        output = torch.sum(torch.mul(es, outputs), dim=1)  # [N, D]
 
         if self.residual:
             output = output + x
