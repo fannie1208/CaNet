@@ -1,7 +1,7 @@
 # CaNet
 The official implementation for WWW2024 paper "Graph Out-of-Distribution Generalization via Causality Intervention"
 
-Related material: [[Paper]()], [[Blog]()]
+Related material: [[Paper](https://arxiv.org/pdf/2402.11494.pdf)], [[Blog]()]
 
 ## What's news
 
