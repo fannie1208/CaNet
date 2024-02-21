@@ -8,10 +8,7 @@ from torch_geometric.utils import erdos_renyi_graph, remove_self_loops, add_self
 from data_utils import sys_normalized_adjacency, sparse_mx_to_torch_sparse_tensor
 from torch_sparse import SparseTensor, matmul
 
-def gcn_conv(x, edge_index, device, variant=False):
-    if variant:
-        adj = torch.sparse_coo_tensor(edge_index, torch.ones(edge_index.shape[1]).to(device), size=(x.shape[0],x.shape[0])).to(device)
-        return torch.sparse.mm(adj, x)
+def gcn_conv(x, edge_index):
     N = x.shape[0]
     row, col = edge_index
     d = degree(col, N).float()
@@ -79,7 +76,11 @@ class CaNetConv(nn.Module):
         if weights == None:
             weights = self.weights
         if self.backbone_type == 'gcn':
-            hi = gcn_conv(x, adj, self.device, self.variant)
+            if not self.variant:
+                hi = gcn_conv(x, adj)
+            else:
+                adj = torch.sparse_coo_tensor(adj, torch.ones(adj.shape[1]).to(self.device), size=(x.shape[0],x.shape[0])).to(self.device)
+                hi = torch.sparse.mm(adj, x)
             hi = torch.cat([hi, x], 1)
             hi = hi.unsqueeze(0).repeat(self.K, 1, 1)  # [K, N, D*2]
             outputs = torch.matmul(hi, weights) # [K, N, D]

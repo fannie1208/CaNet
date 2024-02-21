@@ -98,7 +98,7 @@ class Logger(object):
         if not os.path.exists(f'results/{args.dataset}/{args.backbone_type}'):
             os.makedirs(f'results/{args.dataset}/{args.backbone_type}')
         datetime_now = datetime.now().strftime("%Y%m%d-%H%M%S")
-        filename = f'results/{args.dataset}/{args.backbone_type}/lr_{args.lr}.wd_{args.weight_decay}.tau_{args.tau}.K_{args.K}.dp_{args.dropout}.context_{args.context_type}.{datetime_now}.txt'
+        filename = f'results/{args.dataset}/{args.backbone_type}/lr_{args.lr}.wd_{args.weight_decay}.tau_{args.tau}.K_{args.K}.dp_{args.dropout}.env_{args.env_type}.{datetime_now}.txt'
         with open(f"{filename}", 'a') as f:
             f.write(table.draw())
             f.write(f'\nAll runs:\n')
