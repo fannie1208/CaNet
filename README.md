@@ -35,7 +35,7 @@ If you find our code and model useful, please cite our work. Thank you!
 ```bibtex
       @inproceedings{wu2024canet,
       title = {Graph Out-of-Distribution Generalization via Causal Intervention},
-      author = {Qitian Wu and Nie Fan and Chenxiao Yang Tianyi Bao and Junchi Yan},
+      author = {Qitian Wu and Nie Fan and Chenxiao Yang and Tianyi Bao and Junchi Yan},
       booktitle = {The Web Conference (WWW)},
       year = {2024}
       }
