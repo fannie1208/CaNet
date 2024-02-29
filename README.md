@@ -1,5 +1,5 @@
 # CaNet
-The official implementation for WWW2024 paper "Graph Out-of-Distribution Generalization via Causality Intervention"
+The official implementation for WWW2024 Oral paper "Graph Out-of-Distribution Generalization via Causal Intervention"
 
 Related material: [[Paper](https://arxiv.org/pdf/2402.11494.pdf)], [[Blog]()]
 
@@ -36,7 +36,7 @@ If you find our code and model useful, please cite our work. Thank you!
       @inproceedings{wu2024canet,
       title = {Graph Out-of-Distribution Generalization via Causal Intervention},
       author = {Qitian Wu and Nie Fan and Chenxiao Yang and Tianyi Bao and Junchi Yan},
-      booktitle = {The Web Conference (WWW)},
+      booktitle = {The Web Conference},
       year = {2024}
       }
 ```
