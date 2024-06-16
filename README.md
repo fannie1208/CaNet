@@ -3,6 +3,10 @@ The official implementation for WWW2024 Oral paper "Graph Out-of-Distribution Ge
 
 Related material: [[Paper](https://arxiv.org/pdf/2402.11494.pdf)], [[Blog]()]
 
+## Acknowledgement
+
+The implementation of training pipeline and evaluation is based on [EERM](https://github.com/qitianwu/GraphOOD-EERM).
+
 ## What's news
 
 [2024.02.08] We release the code for the model on six datasets. More detailed info will be updated soon.
