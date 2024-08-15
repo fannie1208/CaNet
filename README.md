@@ -1,7 +1,7 @@
 # CaNet
 The official implementation for WWW2024 Oral paper "Graph Out-of-Distribution Generalization via Causal Intervention"
 
-Related material: [[Paper](https://arxiv.org/pdf/2402.11494.pdf)], [[Blog]()]
+Related material: [[Paper](https://arxiv.org/pdf/2402.11494.pdf)], [[Blog (Chinese)](https://zhuanlan.zhihu.com/p/709125359)], [[Blog (English)](https://medium.com/towards-data-science/towards-generalization-on-graphs-from-invariance-to-causality-c81a174ac37b)], [[Slides](https://qitianwu.github.io/assets/publications/www2024-canet/slides.pdf)]
 
 ## Acknowledgement
 
